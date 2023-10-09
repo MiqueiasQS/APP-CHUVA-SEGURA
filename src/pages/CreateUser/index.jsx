@@ -3,16 +3,15 @@ import { Keyboard } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigation } from '@react-navigation/native'
-import BgImg from '../../assets/layout-top.png';
-
-import ImagePicker from "../../components/ImagePicker";
 import CityPicker from "../../components/CityPicker";
 import DatePicker from "../../components/DatePicker";
 import TextInput from "../../components/TextInput";
 import { createUserSchema } from '../../utils/createUserValidation';
 import { format } from 'date-fns';
 import api from '../../services/api';
-import { Container, ErrorText, Header, InputContainer, Label, ScrollViewContent, StyledSwitch, Button, ButtonText, LinkText, Link, Image } from './styles';
+import { Container, ErrorText, InputContainer, Label, ScrollViewContent, StyledSwitch, Button, ButtonText, LinkText, Link, Image } from './styles';
+
+import Header from "../../components/Header";
 
 export default function App() {
     const navigation = useNavigation();
@@ -65,11 +64,10 @@ export default function App() {
     }
 
     return (
-        <Container>
-            <ScrollViewContent>
-                <Header>
-                <Image source={BgImg}/>
-                    Cadastro de Usuário</Header>
+        <>
+            <Header subTitle="Insira os dados" title="Criar conta" />
+            <Container>
+                <ScrollViewContent>
                     <InputContainer>
                         <Controller
                             control={control}
@@ -184,16 +182,17 @@ export default function App() {
                             name="password"
                         />
                     </InputContainer>
-                <InputContainer>
-                    <Button onPress={handleSubmit(onSubmit)}>
-                        <ButtonText>Cadastrar</ButtonText>
-                    </Button>
-                    <Link onPress={() => navigation.goBack()}>
-                        <LinkText>Criar nova conta</LinkText>
-                    </Link>
-                </InputContainer>
+                    <InputContainer>
+                        <Button onPress={handleSubmit(onSubmit)}>
+                            <ButtonText>Cadastrar</ButtonText>
+                        </Button>
+                        <Link onPress={() => navigation.goBack()}>
+                            <LinkText>Criar nova conta</LinkText>
+                        </Link>
+                    </InputContainer>
 
-            </ScrollViewContent>
-        </Container>
+                </ScrollViewContent>
+            </Container>
+        </>
     );
 }
