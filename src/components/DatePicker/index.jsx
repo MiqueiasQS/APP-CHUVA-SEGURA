@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { format } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
-import { StyledTouchableOpacity, StyledTouchableOpacityText } from './styles';
+import { StyledTouchableOpacity, StyledTouchableOpacityText, InputContainer } from './styles';
 
 const DatePicker = ({ value, onChange, showPicker, setShowPicker }) => {
 
@@ -13,19 +13,21 @@ const DatePicker = ({ value, onChange, showPicker, setShowPicker }) => {
 
   return (
     <View>
-      <StyledTouchableOpacity onPress={() => setShowPicker(true)}>
-        <StyledTouchableOpacityText>Data Selecionada: {formattedDate}</StyledTouchableOpacityText>
-      </StyledTouchableOpacity>
-      <DateTimePickerModal
-        isVisible={showPicker}
-        mode="date"
-        onConfirm={(data) => {
-          setShowPicker(false);
-          onChange(data);
-        }}
-        onCancel={() => setShowPicker(false)}
-        locale={ptBR}
-      />
+      <InputContainer>
+        <StyledTouchableOpacity onPress={() => setShowPicker(true)}>
+          <StyledTouchableOpacityText>Data Selecionada: {formattedDate}</StyledTouchableOpacityText>
+        </StyledTouchableOpacity>
+        <DateTimePickerModal
+          isVisible={showPicker}
+          mode="date"
+          onConfirm={(data) => {
+            setShowPicker(false);
+            onChange(data);
+          }}
+          onCancel={() => setShowPicker(false)}
+          locale={ptBR}
+        />
+      </InputContainer>
     </View>
   );
 };

@@ -1,10 +1,10 @@
 import styled from "styled-components/native";
 
 export const PickerContainer = styled.View`
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  overflow: hidden;
-  margin-bottom: 20px;
+  border-bottom-width: 1px;
+  border-color: #000;
+  margin-bottom: 15px;
+  width: 100%;
 `;
 
 export const ErrorText = styled.Text`

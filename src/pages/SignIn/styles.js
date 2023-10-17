@@ -18,8 +18,8 @@ export const Logo = styled.Image`
 `;
 
 export const AreaInput = styled.View`
-  border-bottom-width: 1px; /* Adicione uma borda na parte inferior */
-  border-color: #000; /* Cor da borda */
+  border-bottom-width: 1px;
+  border-color: #000;
   margin-bottom: 15px;
   width: 90%;
 `;

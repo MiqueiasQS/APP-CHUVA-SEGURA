@@ -1,7 +1,13 @@
 import styled from "styled-components/native";
 
+export const InputContainer = styled.View`
+  border-bottom-width: 1px;
+  border-color: #000;
+  margin-bottom: 15px;
+  width: 100%;
+`;
+
 export const StyledTouchableOpacity = styled.TouchableOpacity`
-  background-color: #3b3dbf;
   width: 100%;
   height: 45px;
   justify-content: center;
@@ -10,6 +16,5 @@ export const StyledTouchableOpacity = styled.TouchableOpacity`
 `;
 
 export const StyledTouchableOpacityText = styled.Text`
-  color: #FFF;
   text-align: center;
 `;

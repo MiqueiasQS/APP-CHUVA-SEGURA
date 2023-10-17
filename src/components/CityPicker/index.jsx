@@ -3,12 +3,11 @@ import { Picker } from "@react-native-picker/picker";
 import { Controller } from "react-hook-form";
 import { PickerContainer, ErrorText } from './styles';
 
-const CityPicker = ({ control, value, onChange, errors }) => {
+const CityPicker = ({ errors }) => {
     return (
         <>
             <PickerContainer>
                 <Controller
-                    control={control}
                     render={({ field: { onChange, value } }) => (
                         <Picker
                             selectedValue={value}

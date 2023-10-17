@@ -9,7 +9,7 @@ import TextInput from "../../components/TextInput";
 import { createUserSchema } from '../../utils/createUserValidation';
 import { format } from 'date-fns';
 import api from '../../services/api';
-import { Container, ErrorText, InputContainer, Label, ScrollViewContent, StyledSwitch, Button, ButtonText, LinkText, Link, Image } from './styles';
+import { Container, ErrorText, InputContainer, Label, ScrollViewContent, Button, ButtonText, LinkText, Link, LinkTextSingIn } from './styles';
 
 import Header from "../../components/Header";
 
@@ -187,7 +187,9 @@ export default function App() {
                             <ButtonText>Cadastrar</ButtonText>
                         </Button>
                         <Link onPress={() => navigation.goBack()}>
-                            <LinkText>Criar nova conta</LinkText>
+                            <LinkText>Já possui uma conta?
+                                <LinkTextSingIn>Login</LinkTextSingIn>
+                            </LinkText>
                         </Link>
                     </InputContainer>
 

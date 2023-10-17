@@ -1,128 +1,49 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ActivityIndicator } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { FlatList, SafeAreaView, ScrollView, Text, View } from "react-native";
+import HeaderHome from "../../components/HeaderHome";
+import { useCallback, useContext, useEffect, useState } from "react";
 import api from '../../services/api';
-import UsersList from '../../components/UsersList';
-import Search from '../../components/Search';
-import {
-    Container,
-    Header,
-    Message,
-    Title,
-    List,
-    Button,
-    ButtonText,
-    Warning
-} from './styles'
+import { AuthContext } from "../../contexts/auth";
+import Card from "../../components/CardHome";
+import { useNavigation } from "@react-navigation/native";
 
-import { AuthContext } from '../../contexts/auth';
+const Home = () => {
+    const { navigate } = useNavigation();
+    const [items, setItems] = useState();
 
-import { useNavigation, useIsFocused } from '@react-navigation/native'
-
-export default function Home() {
-    const { user, signOut, loading } = useContext(AuthContext);
-    const navigation = useNavigation();
-    const isFocused = useIsFocused();
-    const [users, setUsers] = useState([]);
-    const [filteredUsers, setFilteredUsers] = useState([]);
-    const [loadingUsers, setLoadingUsers] = useState(false);
-
-    async function loadUsers() {
+    const getData = useCallback(async () => {
         try {
-            setLoadingUsers(true);
-            const response = await api.get('users');
-            console.log(response)
-            setUsers(response.data);
-            setFilteredUsers(response.data);
+            const response = await api.get('occurrences');
+            setItems(response.data.data);
         } catch (error) {
-            console.error('Erro ao carregar os usuários:', error);
-        } finally {
-            setLoadingUsers(false);
+            console.error('Erro ao carregar dados:', error);
         }
-    }
+    }, []);
 
     useEffect(() => {
-        if (isFocused) {
-            loadUsers();
-        }
-    }, [setFilteredUsers, isFocused]);
+        getData();
+    }, []);
 
-    const handleFilterChange = (filterText) => {
-        if (filterText === '') {
-            //console.log(users)
-            setFilteredUsers(users);
-        } else {
-            const filtered = users.filter((user) =>
-                user.name.toLowerCase().includes(filterText.toLowerCase())
-            );
-            setFilteredUsers(filtered);
-        }
+    const navigateNewOccurrence = () => {
+        navigate("NewOccurrence");
+    };
+    const navigateOccurence = (id) => {
+        navigate("EditOccurrence", { id });
     };
 
-    async function deleteUser(id) {
-        //console.log(id);
-        try {
-            const token = await AsyncStorage.getItem('@authToken');
-
-            const response = await api.delete(`users/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            if (response.status === 200) {
-                loadUsers();
-                console.log("Usuário deletado com sucesso");
-            } else if (response.status === 404) {
-                console.error("Usuário não encontrado");
-            } else {
-                console.error("Erro ao deletar o usuário");
-            }
-        } catch (error) {
-            console.error('Erro ao carregar os usuários:', error);
-        }
-    }
-
-    if (loadingUsers || loading) {
-        return (
-            <Container>
-                <ActivityIndicator size={36} color="#000" />
-            </Container>
-        )
-    }
-    console.log(filteredUsers.length)
     return (
-        <Container>
-            {filteredUsers.length > 0 ? (
-                <>
-                    <Header>
-                        <Message>
-                            {user && `Hey ${user.email}`}
-                        </Message>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
+            <HeaderHome onPress={() => navigateNewOccurrence()} />
+            <View style={{ flex: 1 }}>
+                <FlatList
+                    data={items}
+                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={({ item }) => <Card data={item} navigate={() => navigateOccurence(item.id)} />}
+                    ListFooterComponent={<View style={{ width: 10, height: 20 }} />}
+                    showsVerticalScrollIndicator={false}
+                />
+            </View>
+        </SafeAreaView>
+    );
+};
 
-                        <Button onPress={() => navigation.navigate('CreateUser')}>
-                            <ButtonText>Fazer registro</ButtonText>
-                        </Button>
-
-                        <Button onPress={() => signOut()}>
-                            <ButtonText>Sair</ButtonText>
-                        </Button>
-                    </Header>
-
-                    <Title>Your Employees</Title>
-                    <Search onFilterChange={handleFilterChange} />
-
-                    <List
-                        data={filteredUsers}
-                        keyExtractor={(item) => item.id}
-                        renderItem={({ item }) => <UsersList data={item} onDelete={deleteUser} />}
-                    />
-                </>
-            )
-                :
-                <Warning>Sem resultados...</Warning>
-            }
-
-        </Container>
-    )
-}
+export default Home;

@@ -23,7 +23,7 @@ function AuthProvider({ children }) {
       //console.log(storageUser);
       //console.log(storedUserString);
       if (storageUser) {
-       //console.log(storedUserString)
+        //console.log(storedUserString)
         setUser(JSON.parse(storedUserString));
         //navigation.navigate('Home');
         setLoading(false);
@@ -85,4 +85,3 @@ function AuthProvider({ children }) {
 }
 
 export default AuthProvider;
-

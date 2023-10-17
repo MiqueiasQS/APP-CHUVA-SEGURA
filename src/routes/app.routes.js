@@ -3,8 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Home from '../pages/Home';
 import CreateUser from '../pages/CreateUser';
-import DetailsUser from '../pages/DetailsUser';
-import EditUser from '../pages/EditUser';
+import EditOccurrence from '../pages/EditOccurrence';
+import NewOccurrence from '../pages/NewOccurrence';
 
 const AuthStack = createNativeStackNavigator();
 
@@ -26,15 +26,15 @@ function AuthRoutes() {
                 }}
             />
             <AuthStack.Screen
-                name="DetailsUser"
-                component={DetailsUser}
+                name="EditOccurrence"
+                component={EditOccurrence}
                 options={{
                     headerShown: false,
                 }}
             />
             <AuthStack.Screen
-                name="EditUser"
-                component={EditUser}
+                name="NewOccurrence"
+                component={NewOccurrence}
                 options={{
                     headerShown: false,
                 }}
